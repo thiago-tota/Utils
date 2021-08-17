@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31521.260
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tota.SharedKernel", "Tota.SharedKernel\Tota.SharedKernel.csproj", "{25DFA4B7-3FEF-4267-AE56-C2874C6D1C9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tota.SharedKernel", "Tota.SharedKernel\Tota.SharedKernel.csproj", "{25DFA4B7-3FEF-4267-AE56-C2874C6D1C9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tota.SharedKernel.Test", "Tota.SharedKernel.Test\Tota.SharedKernel.Test.csproj", "{8B9D5F5A-B5D5-4E8C-ACF8-362F5E477B31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tota.SharedKernel.Test", "Tota.SharedKernel.Test\Tota.SharedKernel.Test.csproj", "{8B9D5F5A-B5D5-4E8C-ACF8-362F5E477B31}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExampleApps", "ExampleApps", "{E90B2EC9-35AA-44B7-BB2F-8349C9330A7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFWithBlazorWebAssembly", "ExampleApps\EFWithBlazorWebAssembly\EFWithBlazorWebAssembly.csproj", "{1B757BB7-B082-460B-9209-16E4F53FA79A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +25,16 @@ Global
 		{8B9D5F5A-B5D5-4E8C-ACF8-362F5E477B31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B9D5F5A-B5D5-4E8C-ACF8-362F5E477B31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B9D5F5A-B5D5-4E8C-ACF8-362F5E477B31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B757BB7-B082-460B-9209-16E4F53FA79A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B757BB7-B082-460B-9209-16E4F53FA79A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B757BB7-B082-460B-9209-16E4F53FA79A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B757BB7-B082-460B-9209-16E4F53FA79A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1B757BB7-B082-460B-9209-16E4F53FA79A} = {E90B2EC9-35AA-44B7-BB2F-8349C9330A7B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C3EFF6D6-5B1D-4C9A-BB97-A13BEBAE282F}

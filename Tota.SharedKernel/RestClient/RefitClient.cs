@@ -9,7 +9,7 @@ namespace Tota.SharedKernel.RestClient
     {
         public static RefitSettings GetRestClientSettings(Func<Task<string>> authenticationDelegate = null, Func<HttpResponseMessage, Task<Exception>> exceptionDelegate = null)
         {
-            RefitSettings settings = new RefitSettings
+            var settings = new RefitSettings
             {
                 ContentSerializer = new SystemTextJsonContentSerializer(
                    JsonSerializer.SystemTextJsonSerializer.GetOptionsToSerialize(false))

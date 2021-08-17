@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using Tota.SharedKernel.Asynchronous;
 using Xunit;
@@ -19,7 +20,7 @@ namespace Tota.SharedKernel.Test
         {
             DoSomethingReturnTask().Await(CompletedTaskCallback, ErrorTaskCallback);
 
-            AwaitTaskCompletion();
+            AwaitTaskCompletion().ContinueWith(_ =>  Debug.WriteLine("AwaitTaskCompletion completed"));
 
             Assert.Equal(COMPLETED_CALLBACK_MESSAGE, _awaitResult);
         }
@@ -27,12 +28,12 @@ namespace Tota.SharedKernel.Test
         [Fact]
         public void WhenTaskCompletedSuccessfulyThenPassUsingTPL()
         {
-            var task = DoSomethingReturnTask();
+            var task = Task.Run(() => DoSomethingReturnTask());
 
             task.ContinueWith(_ => CompletedTaskCallback(), TaskContinuationOptions.OnlyOnRanToCompletion);
             task.ContinueWith(ex => ErrorTaskCallback(ex.Exception), TaskContinuationOptions.OnlyOnFaulted);
 
-            AwaitTaskCompletion();
+            AwaitTaskCompletion().ContinueWith(_ => Debug.WriteLine("AwaitTaskCompletion completed"));
 
             Assert.Equal(COMPLETED_CALLBACK_MESSAGE, _awaitResult);
         }
@@ -42,7 +43,7 @@ namespace Tota.SharedKernel.Test
         {
             DoSomethingReturnTaskOfT().Await(CompletedTaskCallback, ErrorTaskCallback);
 
-            AwaitTaskCompletion();
+            AwaitTaskCompletion().ContinueWith(_ => Debug.WriteLine("AwaitTaskCompletion completed"));
 
             Assert.Equal(COMPLETED_CALLBACK_MESSAGE, _awaitResult);
         }
@@ -52,7 +53,7 @@ namespace Tota.SharedKernel.Test
         {
             DoSomethingThrowException().Await(CompletedTaskCallback, ErrorTaskCallback);
 
-            AwaitTaskCompletion();
+            AwaitTaskCompletion().ContinueWith(_ => Debug.WriteLine("AwaitTaskCompletion completed"));
 
             Assert.Contains(ERROR_CALLBACK_MESSAGE, _awaitResult);
         }
@@ -60,12 +61,11 @@ namespace Tota.SharedKernel.Test
         [Fact]
         public void WhenCallTaskThrowExceptionThenPassUsingTPL()
         {
-            var task = DoSomethingThrowException();
+            var task = Task.Run(async () => await DoSomethingThrowException());
 
             task.ContinueWith(_ => CompletedTaskCallback(), TaskContinuationOptions.OnlyOnRanToCompletion);
             task.ContinueWith(ex => ErrorTaskCallback(ex.Exception), TaskContinuationOptions.OnlyOnFaulted);
-
-            AwaitTaskCompletion();
+            AwaitTaskCompletion().ContinueWith(_ => Debug.WriteLine("AwaitTaskCompletion completed"));
 
             Assert.Contains(ERROR_CALLBACK_MESSAGE, _awaitResult);
         }
@@ -102,15 +102,20 @@ namespace Tota.SharedKernel.Test
             throw new Exception(ERROR_CALLBACK_MESSAGE);
         }
 
-        private void AwaitTaskCompletion()
+        private async Task AwaitTaskCompletion(/*CancellationToken cancellationToken*/)
         {
-            Stopwatch stopwatch = new Stopwatch();
+            var stopwatch = new Stopwatch();
             stopwatch.Start();
-            while (_awaitResult == default && stopwatch.ElapsedMilliseconds < TIMEOUT)
+            while (_awaitResult == default && stopwatch.ElapsedMilliseconds < TIMEOUT /*&& cancellationToken.IsCancellationRequested == false*/)
             {
-                Task.Delay(1000);
+                await Task.Delay(1000);
             }
             stopwatch.Stop();
+        }
+
+        private async Task LongwaitTaskCompletion(CancellationToken cancellationToken)
+        {
+            await Task.Delay(60000, cancellationToken);
         }
     }
 }

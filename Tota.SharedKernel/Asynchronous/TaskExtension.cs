@@ -5,6 +5,18 @@ namespace Tota.SharedKernel.Asynchronous
 {
     public static class TaskExtension
     {
+        public static async void Await(this Task task, Action<Exception> errorCallback)
+        {
+            try
+            {
+                await task.ConfigureAwait(true);
+            }
+            catch (Exception ex)
+            {
+                errorCallback?.Invoke(ex);
+            }
+        }
+
         public static async void Await(this Task task, Action completedCallback, Action<Exception> errorCallback)
         {
             try
